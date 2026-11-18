@@ -1,0 +1,41 @@
+name: Commit message validation
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: npm install --no-save @commitlint/config-conventional@21 @commitlint/cli@21
+
+      - name: Create commitlint config file
+        run: |
+          cat << EOF > commitlint.config.mjs
+          export default {
+            extends: ['@commitlint/config-conventional'],
+            rules: {
+              'type-enum': [2, 'always', [
+                'feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore', 'build', 'ci',
+                'enh', 'enhance', 'tweak', 'imp', 'improve',
+              ]],
+              'subject-case': [2, 'always', 'sentence-case'],
+              'header-max-length': [2, 'always', 80],
+            },
+            ignores: [
+              (commit) => commit.includes('Signed-off-by: dependabot[bot]')
+            ]
+          };
+          EOF
+
+      - name: Run commitlint
+        run: npx commitlint --from HEAD^ --to HEAD --config commitlint.config.mjs

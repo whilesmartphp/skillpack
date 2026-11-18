@@ -361,8 +361,8 @@ final class Skill
         if (($metadata = $this->frontmatter['metadata'] ?? null) !== null) {
             $ok = is_array($metadata) && ($metadata === [] || ! array_is_list($metadata));
             if ($ok) {
-                foreach ($metadata as $value) {
-                    if (! is_string($value)) {
+                foreach ($metadata as $key => $value) {
+                    if (! is_string($key) || ! is_string($value)) {
                         $ok = false;
                     }
                 }

@@ -88,8 +88,8 @@ final class Tool
             return $arguments;
         }
         $trimmed = trim($arguments);
-        if ($trimmed === '' || $trimmed === 'null') {
-            return [];
+        if ($trimmed === '') {
+            throw new ToolArgumentException("{$this->name} arguments must be a JSON object");
         }
         try {
             $decoded = json_decode($trimmed, false, 32, JSON_THROW_ON_ERROR);

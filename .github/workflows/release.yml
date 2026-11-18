@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create release
-        uses: whilesmart/workflows/package/release@main
+        uses: whilesmart/workflows/package/release@80342872d815ec6906a537b652dc1f212ea66d5a
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           package: whilesmart/skillpack

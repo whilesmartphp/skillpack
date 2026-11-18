@@ -186,3 +186,5 @@ Every exception extends `Exceptions\SkillpackException`: `SkillNotFoundException
 ## License
 
 MIT
+
+For local sources, `maxFiles` bounds filesystem entries, including directories, skipped entries, and symbolic links. Direct archives also enforce `maxSkills`. Tool argument strings must encode a JSON object; native PHP `null` still means no arguments.

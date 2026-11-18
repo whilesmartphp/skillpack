@@ -73,8 +73,13 @@ final class RemoteSource implements SkillSource
             $dir = $dir === '.' ? $this->options->directory : $dir.'/'.$this->options->directory;
         }
 
+        $groups = Bundle::skillsIn($contents['files'], $dir, $contents['dirs']);
+        if (count($groups) > $this->options->maxSkills) {
+            throw new LimitExceededException("{$got->address} holds more than {$this->options->maxSkills} skills");
+        }
+
         $skills = [];
-        foreach (Bundle::skillsIn($contents['files'], $dir, $contents['dirs']) as $folder => $files) {
+        foreach ($groups as $folder => $files) {
             $folder = (string) $folder;
             $skills[] = new Skill($files, [
                 'type' => 'archive',
@@ -234,7 +239,7 @@ final class RemoteSource implements SkillSource
     {
         $name = basename($path);
         foreach (['.tar.gz', '.tgz', '.zip'] as $suffix) {
-            if (str_ends_with($name, $suffix)) {
+            if (str_ends_with(strtolower($name), $suffix)) {
                 return substr($name, 0, -strlen($suffix));
             }
         }

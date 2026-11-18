@@ -73,6 +73,7 @@ final class LocalSource implements SkillSource
             if ($entry === '.' || $entry === '..') {
                 continue;
             }
+            $this->countEntry();
             $child = $real.DIRECTORY_SEPARATOR.$entry;
             if (! is_dir($child) || ! is_file($child.DIRECTORY_SEPARATOR.'SKILL.md')) {
                 continue;
@@ -89,6 +90,13 @@ final class LocalSource implements SkillSource
         }
 
         return new Pack($skills);
+    }
+
+    private function countEntry(): void
+    {
+        if (++$this->fileCount > $this->options->maxFiles) {
+            throw new LimitExceededException("{$this->location} holds more than {$this->options->maxFiles} filesystem entries");
+        }
     }
 
     private function skill(string $root, string $display, string $folder): Skill
@@ -124,6 +132,7 @@ final class LocalSource implements SkillSource
             if ($entry === '.' || $entry === '..') {
                 continue;
             }
+            $this->countEntry();
             $path = $relative === '' ? $entry : $relative.'/'.$entry;
             $full = $dir.DIRECTORY_SEPARATOR.$entry;
             $real = realpath($full);
@@ -149,9 +158,6 @@ final class LocalSource implements SkillSource
             }
             if (! Paths::isValid($path)) {
                 throw new UnsafePathException("{$full} does not have a safe relative file name");
-            }
-            if (++$this->fileCount > $this->options->maxFiles) {
-                throw new LimitExceededException("{$this->location} holds more than {$this->options->maxFiles} files");
             }
             $size = filesize($real);
             if ($size === false || $this->byteCount + $size > $this->options->maxExtractedBytes) {

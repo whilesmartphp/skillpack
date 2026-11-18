@@ -13,6 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Pre release checks
-        uses: whilesmart/workflows/package/pre-release@main
+        uses: whilesmart/workflows/package/pre-release@80342872d815ec6906a537b652dc1f212ea66d5a
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

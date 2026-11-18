@@ -85,6 +85,9 @@ final class Bundle
             $isDir[$segments[0]] = ($isDir[$segments[0]] ?? false) || isset($segments[1]);
         }
         foreach (array_keys($dirs) as $path) {
+            if (array_intersect(explode('/', $path), Paths::SKIPPED_ANYWHERE) !== []) {
+                continue;
+            }
             $first = explode('/', $path, 2)[0];
             $top[$first] = true;
             $isDir[$first] = true;

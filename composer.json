@@ -1,0 +1,47 @@
+{
+    "name": "whilesmart/skillpack",
+    "description": "Load, validate and serve Agent Skills from folders, in-memory bundles, SKILL.md URLs, archives and discovery indexes, without a framework.",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "MIT",
+    "keywords": ["agent-skills", "skills", "llm", "agents", "skill-md"],
+    "authors": [
+        { "name": "Whilesmart Team" }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-zlib": "*",
+        "symfony/yaml": "^6.4|^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5|^11.0",
+        "laravel/pint": "^1.22"
+    },
+    "suggest": {
+        "ext-curl": "Needed by the default HTTP transport for remote skills."
+    },
+    "config": {
+        "platform": {
+            "php": "8.2"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Whilesmart\\Skillpack\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Whilesmart\\Skillpack\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "pint": ["./vendor/bin/pint"],
+        "pint:test": ["./vendor/bin/pint --test"]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
